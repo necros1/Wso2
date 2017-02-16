@@ -1,0 +1,37 @@
+<data name="region_test" serviceGroup="" serviceNamespace="">
+    <description/>
+    <config id="conn">
+        <property name="carbon_datasource_name">Postgres</property>
+    </config>
+    <query id="ListByRutTaller" useConfig="conn">
+        <sql>SELECT id_local,capacidad_instalada,direccion,id_comuna,activo,capacidad_actual,id_tipo_local from public.locales WHERE id_taller = ? ORDER BY 3;</sql>
+        <param name="tallerId" ordinal="1" paramType="SCALAR" sqlType="STRING" type="IN"/>
+        <result defaultNamespace="http://ns.local.coba.cl" element="Response" rowName="Data">
+            <element column="id_local" name="localId" xsdType="xs:integer"/>
+            <element column="capacidad_instalada" name="localCapacidadInstalada" xsdType="xs:integer"/>
+            <element column="direccion" name="localDireccion" xsdType="xs:string"/>
+            <element column="id_comuna" name="localIdComuna" xsdType="xs:integer"/>
+            <element column="activo" name="localActivo"/>
+            <element column="capacidad_actual" name="localCapacidadActual" xsdType="xs:integer"/>
+            <element column="id_tipo_local" name="localIdTipo" xsdType="xs:integer"/>
+        </result>
+    </query>
+    <operation name="ListByRutTaller">
+        <call-query href="ListByRutTaller">
+            <with-param name="tallerId" query-param="tallerId"/>
+        </call-query>
+    </operation>
+    <query id="ListByTipo" useConfig="conn">
+        <sql>select id_tipo_local,descripcion from public.tipo_local WHERE id_tipo_local = ? ;</sql>
+        <result defaultNamespace="http://ns.local.coba.cl" element="Response" rowName="Data">
+            <element column="id_tipo_local" name="localIdTipo" xsdType="xs:integer"/>
+            <element column="descripcion" name="localTipoDescripcion" xsdType="xs:string"/>
+        </result>
+        <param name="idTipoLocal" ordinal="1" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+    </query>
+    <operation name="ListByTipo">
+        <call-query href="ListByTipo">
+            <with-param name="idTipoLocal" query-param="idTipoLocal"/>
+        </call-query>
+    </operation>
+</data>
